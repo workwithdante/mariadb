@@ -12,14 +12,9 @@ mariadb:
     annotations:
       kubernetes.io/ingress.class: "traefik"
       traefik.tcp.routers.mariadb.entrypoints: "mariadb"  # Definir el entrypoint TCP.
-      traefik.tcp.routers.mariadb.rule: "HostSNI(`mariadb.mabecenter.org`)"  # Reglas de SNI para el host.
+      traefik.tcp.routers.mariadb.rule: "HostSNI(`*`)"  # Reglas de SNI para el host.
       traefik.tcp.routers.mariadb.tls: "true"
-    hosts:
-      - host: mariadb.mabecenter.org  # El dominio donde se accederá a Forgejo
-        paths:
-          - path: /
-            pathType: Prefix
+      traefik.tcp.routers.mariadb.service: "mariadb"
+      traefik.tcp.services.mariadb.loadbalancer.server.port: "3306"
     tls:
       - secretName: tls-cert  # Certificado TLS para la conexión segura
-        hosts:
-          - mariadb.mabecenter.org
