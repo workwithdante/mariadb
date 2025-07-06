@@ -1,0 +1,10 @@
+apiVersion: v2
+name: mariadb-sierra-group
+description: Wrapper chart for MariaDB
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: mariadb
+    version: "16.3.2"  # Especifica la versión del chart de Forgejo que deseas usar
+    repository: "https://charts.bitnami.com/bitnami"  # URL del repositorio de Forgejo

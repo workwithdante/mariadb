@@ -1,0 +1,22 @@
+mariadb:
+  architecture: "standalone"
+  auth:
+    existingSecret: "mariadb-credentials"
+             
+  primary:
+    extraFlags: "--character-set-server=utf8mb4 --collation-server=utf8mb4_bin"
+
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"  # Usar Traefik como controlador de Ingress
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
+    hosts:
+      - host: mariadb.mabecenter.org  # El dominio donde se accederá a Forgejo
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: tls-cert  # Certificado TLS para la conexión segura
+        hosts:
+          - mariadb.mabecenter.org
