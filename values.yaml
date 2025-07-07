@@ -1,4 +1,7 @@
 mariadb:
+  architecture: "standalone"
+  auth:
+    existingSecret: "mariadb-credentials"
   service:
     # Tipo de servicio debe ser LoadBalancer para acceder desde el exterior
     primary:
@@ -37,10 +40,3 @@ mariadb:
             name: mariadb
             port:
               number: 3306
-
-  # Base de datos y autenticación
-  auth:
-    existingSecret: "mariadb-credentials"
-
-  # Otros parámetros del chart de MariaDB se mantienen sin cambios o se ajustan según sea necesario
-  architecture: standalone
