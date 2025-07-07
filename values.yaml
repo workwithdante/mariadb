@@ -9,6 +9,9 @@ mariadb:
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: "mariadb"
         traefik.ingress.kubernetes.io/router.tls: "true"
+        
+  serviceBindings:
+    enabled: true
 
   ingress:
     enabled: true
