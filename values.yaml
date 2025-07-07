@@ -5,6 +5,13 @@ mariadb:
              
   primary:
     extraFlags: "--character-set-server=utf8mb4 --collation-server=utf8mb4_bin"
+    persistence:
+      enabled: true
+      storageClass: "nfs"
+      accessMode: ReadWriteMany
+      accessModes:
+        - ReadWriteMany
+      size: 8Gi
 
   ingress:
     enabled: true
