@@ -5,31 +5,8 @@ mariadb:
 
   primary:
     extraFlags: "--character-set-server=utf8mb4 --collation-server=utf8mb4_bin"
-    service:
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: "mariadb"
-        traefik.ingress.kubernetes.io/router.tls: "true"
-        
-  serviceBindings:
-    enabled: true
+    configuration:
 
-  ingress:
-    enabled: true
-    host: mariadb.mabecenter.org
-    tls:
-      - secretName: tls-cert
-        hosts:
-          - mariadb.mabecenter.org
-    ingressClassName: traefik
-    annotations:
-      kubernetes.io/ingress.class: "traefik"
-      traefik.ingress.kubernetes.io/router.entrypoints: "mariadb"
-      traefik.ingress.kubernetes.io/router.tls: "true"
-    paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: mariadb
-            port:
-              number: 3306
+  tls:
+    enabled: true  # Asegúrate de que esté habilitado
+    existingSecret: tls-cert  # Usa el secreto TLS correcto
