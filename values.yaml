@@ -4,8 +4,11 @@ mariadb:
     existingSecret: "mariadb-credentials"
 
   primary:
-    extraFlags: "--character-set-server=utf8mb4 --collation-server=utf8mb4_bin"
-    configuration:
+    extraFlags: >-
+      --skip-character-set-client-handshake
+      --skip-innodb-read-only-compressed
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
 
   tls:
     enabled: true  # Asegúrate de que esté habilitado
