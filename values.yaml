@@ -7,7 +7,7 @@ mariadb:
         loadBalancerIP: ""
         annotations:
           # Anotaciones para Traefik Ingress Controller
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.entrypoints: "mariadb"
           traefik.ingress.kubernetes.io/router.tls: "true"
         sessionAffinity: None
         sessionAffinityConfig: {}
@@ -26,7 +26,7 @@ mariadb:
     ingressClassName: traefik
     annotations:
       kubernetes.io/ingress.class: "traefik"
-      traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+      traefik.ingress.kubernetes.io/router.entrypoints: "mariadb"
       traefik.ingress.kubernetes.io/router.tls: "true"
     # Rutas de Ingress para MariaDB
     paths:
