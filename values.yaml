@@ -16,13 +16,16 @@ mariadb:
   ingress:
     enabled: true
     ingressClassName: "traefik"  # Usar Traefik como controlador de Ingress
-    hostname: "mariadb.mabecenter.org"
-    tls: true
-    annotations:
-      kubernetes.io/ingress.class: "traefik"
-      kubernetes.io/router.tls: "true"
-      traefik.ingress.kubernetes.io/router.tls: true
+    hostname: mariadb.mabecenter.org
     extraTls:
       - hosts:
           - "mariadb.mabecenter.org"
         secretName: tls-cert
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
+      kubernetes.io/router.tls: "true"
+      traefik.ingress.kubernetes.io/router.tls: true
+  
+  tls:
+    enabled: true
+    existingSecret: tls-cert
