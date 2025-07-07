@@ -1,51 +1,46 @@
-# Configuración global y de servicio
-global:
-  imageRegistry: ""
-  imagePullSecrets: []
-  defaultStorageClass: ""
+mariadb:
+  service:
+    # Tipo de servicio debe ser LoadBalancer para acceder desde el exterior
+    primary:
+      service:
+        type: LoadBalancer
+        loadBalancerIP: ""
+        annotations:
+          # Anotaciones para Traefik Ingress Controller
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.tls: "true"
+        sessionAffinity: None
+        sessionAffinityConfig: {}
 
-service:
-  # Tipo de servicio debe ser LoadBalancer para acceder desde el exterior
-  primary:
-    service:
-      type: LoadBalancer
-      loadBalancerIP: ""
-      annotations:
-        # Anotaciones para Traefik Ingress Controller
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        traefik.ingress.kubernetes.io/router.tls: "true"
-      sessionAffinity: None
-      sessionAffinityConfig: {}
+  # Configuración de Ingress
+  ingress:
+    enabled: true
+    # Aquí especificamos el dominio de acceso
+    host: mariadb.mabecenter.org
+    # Habilitamos TLS para conexión segura
+    tls:
+      - secretName: tls-cert
+        hosts:
+          - mariadb.mabecenter.org
+    # Configuración para el controlador Ingress
+    ingressClassName: traefik
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
+      traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    # Rutas de Ingress para MariaDB
+    paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mariadb
+            port:
+              number: 3306
 
-# Configuración de Ingress
-ingress:
-  enabled: true
-  # Aquí especificamos el dominio de acceso
-  host: mariadb.mabecenter.org
-  # Habilitamos TLS para conexión segura
-  tls:
-    - secretName: tls-cert
-      hosts:
-        - mariadb.mabecenter.org
-  # Configuración para el controlador Ingress
-  ingressClassName: traefik
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-    traefik.ingress.kubernetes.io/router.tls: "true"
-  # Rutas de Ingress para MariaDB
-  paths:
-    - path: /
-      pathType: Prefix
-      backend:
-        service:
-          name: mariadb
-          port:
-            number: 3306
+  # Base de datos y autenticación
+  auth:
+    existingSecret: "mariadb-credentials"
 
-# Base de datos y autenticación
-auth:
-  existingSecret: "mariadb-credentials"
-
-# Otros parámetros del chart de MariaDB se mantienen sin cambios o se ajustan según sea necesario
-architecture: standalone
+  # Otros parámetros del chart de MariaDB se mantienen sin cambios o se ajustan según sea necesario
+  architecture: standalone
