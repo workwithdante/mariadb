@@ -9,8 +9,8 @@ mariadb:
       --skip-innodb-read-only-compressed
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
-    service:
-      type: LoadBalancer
+    #service:
+    #  type: NodePort
 
   tls:
     enabled: true  # Asegúrate de que esté habilitado
