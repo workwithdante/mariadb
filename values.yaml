@@ -6,32 +6,22 @@ mariadb:
   primary:
     extraFlags: "--character-set-server=utf8mb4 --collation-server=utf8mb4_bin"
     service:
-      type: LoadBalancer
-      loadBalancerIP: ""
       annotations:
-        # Anotaciones para Traefik Ingress Controller
         traefik.ingress.kubernetes.io/router.entrypoints: "mariadb"
         traefik.ingress.kubernetes.io/router.tls: "true"
-      sessionAffinity: None
-      sessionAffinityConfig: {}
 
-  # Configuración de Ingress
   ingress:
     enabled: true
-    # Aquí especificamos el dominio de acceso
     host: mariadb.mabecenter.org
-    # Habilitamos TLS para conexión segura
     tls:
       - secretName: tls-cert
         hosts:
           - mariadb.mabecenter.org
-    # Configuración para el controlador Ingress
     ingressClassName: traefik
     annotations:
       kubernetes.io/ingress.class: "traefik"
       traefik.ingress.kubernetes.io/router.entrypoints: "mariadb"
       traefik.ingress.kubernetes.io/router.tls: "true"
-    # Rutas de Ingress para MariaDB
     paths:
       - path: /
         pathType: Prefix
