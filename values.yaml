@@ -9,12 +9,18 @@ mariadb:
   ingress:
     enabled: true
     ingressClassName: "traefik"  # Usar Traefik como controlador de Ingress
+    hostname: "mariadb.mabecenter.org"
+    tls: true
     annotations:
       kubernetes.io/ingress.class: "traefik"
+      kubernetes.io/router.tls: "true"
       traefik.tcp.routers.mariadb.entrypoints: "mariadb"  # Definir el entrypoint TCP.
-      traefik.tcp.routers.mariadb.rule: "HostSNI(`*`)"  # Reglas de SNI para el host.
+      traefik.tcp.routers.mariadb.rule: "HostSNI(`mariadb.mabecenter.org`)"  # Reglas de SNI para el host.
       traefik.tcp.routers.mariadb.tls: "true"
       traefik.tcp.routers.mariadb.service: "mariadb"
       traefik.tcp.services.mariadb.loadbalancer.server.port: "3306"
-    tls:
-      - secretName: tls-cert  # Certificado TLS para la conexión segura
+      traefik.ingress.kubernetes.io/router.tls: true
+    extraTls:
+      - hosts:
+          - "mariadb.mabecenter.org"
+        secretName: tls-cert
