@@ -21,6 +21,3 @@ mariadb:
   
   tls:
     enabled: false
-  
-  volumePermissions:
-    enabled: true
