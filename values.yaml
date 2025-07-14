@@ -9,6 +9,7 @@ mariadb:
       --collation-server=utf8mb4_unicode_ci
 
   auth:
+    database: sync
     existingSecret: "mariadb-credentials"
     secretKeys:
         adminPasswordKey: "mariadb-root-password"
