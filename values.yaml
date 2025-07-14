@@ -7,6 +7,9 @@ mariadb:
       --skip-innodb-read-only-compressed
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
+    extraEnvVars:
+      - name: MARIADB_REQUIRE_SECURE_TRANSPORT
+        value: "OFF"  
 
   auth:
     database: sync
